@@ -17,7 +17,7 @@ pipeline {
                                                    keyFileVariable: 'mykey',
                                                    usernameVariable: 'myuser')]) {
 
-                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker run -p 4444:4444 ttl.sh/fvaldes-docker-ruby-hw\""
+                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker run -d -p 4444:4444 ttl.sh/fvaldes-docker-ruby-hw\""
                 }
             }
         } 
