@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'nodejs-22'
+    }
+
     stages {
         stage('Build and Push') {
             steps {
@@ -20,6 +24,13 @@ pipeline {
                     sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker run -d -p 4444:4444 ttl.sh/fvaldes-docker-ruby-hw\""
                 }
             }
-        } 
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Testing'
+                sh 'newman run test.json'
+            }
+        }
     }
 }
