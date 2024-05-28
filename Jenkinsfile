@@ -23,7 +23,7 @@ pipeline {
                     
                     script {
                         // Check if there are any running containers
-                        def runningContainers = sh(script: 'docker ps -q', returnStdout: true).trim()
+                        def runningContainers = sh(script: 'docker ps -aq', returnStdout: true).trim()
                         
                         if (runningContainers) {
                             // Stop and remove all containers if there are any running
