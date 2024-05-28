@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building... and pushing docker image'
-                sh 'docker build -t myapp:latest .'
+                sh 'docker build -t my-docker-hw:latest .'
             }
         }
     }
