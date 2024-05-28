@@ -13,9 +13,6 @@ pipeline {
         stage('Deploy to Target') {
             steps {
                 echo 'Deploying to target'
-                environment {
-                    ANSIBLE_HOST_KEY_CHECKING = 'false'
-                }
                 withCredentials([sshUserPrivateKey(credentialsId: 'mykey2',
                                                    keyFileVariable: 'mykey',
                                                    usernameVariable: 'myuser')]) {
