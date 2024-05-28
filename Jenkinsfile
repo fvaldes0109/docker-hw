@@ -20,8 +20,18 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'mykey2',
                                                    keyFileVariable: 'mykey',
                                                    usernameVariable: 'myuser')]) {
+
+                    // Check if there are any running containers
+                    def runningContainers = sh(script: 'docker ps -aq', returnStdout: true).trim()
                     
-                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker ps -aq | xargs docker stop | xargs docker rm\""
+                    if (runningContainers) {
+                        // Stop and remove all containers if there are any running
+                        sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker ps -aq | xargs docker stop | xargs docker rm\""
+                        echo "Stopped and removed all running containers."
+                    } else {
+                        echo "No running containers to stop and remove."
+                    }
+                    
                     sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker run -d -p 4444:4444 ttl.sh/fvaldes-docker-ruby-hw\""
                 }
             }
