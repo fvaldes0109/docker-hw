@@ -13,7 +13,15 @@ pipeline {
         stage('Deploy to Target') {
             steps {
                 echo 'Deploying to target'
-                sh 'docker run -p 4444:4444 ttl.sh/fvaldes-docker-ruby-hw'
+                environment {
+                    ANSIBLE_HOST_KEY_CHECKING = 'false'
+                }
+                withCredentials([sshUserPrivateKey(credentialsId: 'mykey2',
+                                                   keyFileVariable: 'mykey',
+                                                   usernameVariable: 'myuser')]) {
+
+                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker run -p 4444:4444 ttl.sh/fvaldes-docker-ruby-hw\""
+                }
             }
         } 
     }
