@@ -58,7 +58,7 @@ pipeline {
 
                     sh "scp -o StrictHostKeychecking=no -i ${mykey} myapp.yaml ${myuser}@192.168.105.4:"
 
-                    sh "kubectl apply -f myapp.yaml"
+                    sh "ssh vagrant@192.168.105.4 -i ${mykey} \"kubectl apply -f myapp.yaml\""
                 }
             }
         }
