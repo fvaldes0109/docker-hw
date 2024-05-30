@@ -6,7 +6,7 @@ pipeline {
     }
 
     stages {
-        stage('Build and Push') {
+        stage('Build and Push Docker Image') {
             steps {
                 echo 'Building and pushing docker image'
                 sh 'docker build -t ttl.sh/fvaldes-docker-ruby-hw .'
@@ -39,10 +39,27 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Test Target') {
             steps {
                 echo 'Testing'
                 sh 'newman run test.json'
+            }
+        }
+
+        stage('Deploy to k8s') {
+            steps {
+                echo 'Deploying to k8s'
+                withCredentials([sshUserPrivateKey(credentialsId: 'mykey2',
+                                                   keyFileVariable: 'mykey',
+                                                   usernameVariable: 'myuser')]) {
+
+                    sh "ssh vagrant@192.168.105.4 -i ${mykey} \"kubectl delete pod myapp --ignore-not-found\""
+                    sh "ssh vagrant@192.168.105.4 -i ${mykey} \"kubectl run myapp --image=ttl.sh/fvaldes-docker-ruby-hw\""
+
+                    sh "scp -o StrictHostKeychecking=no -i ${mykey} myapp.yaml ${myuser}@192.168.105.4:"
+
+                    sh "kubectl apply -f myapp.yaml"
+                }
             }
         }
     }
