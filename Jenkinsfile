@@ -59,6 +59,10 @@ pipeline {
                     sh "scp -o StrictHostKeychecking=no -i ${mykey} myapp.yaml ${myuser}@192.168.105.4:"
 
                     sh "ssh vagrant@192.168.105.4 -i ${mykey} \"kubectl apply -f myapp.yaml\""
+
+                    sh "ssh vagrant@192.168.105.4 -i ${mykey} \"kubectl delete deployments myapp --ignore-not-found\""
+                    sh "ssh vagrant@192.168.105.4 -i ${mykey} \"kubectl create deployment myapp --image=ttl.sh/fvaldes-docker-ruby-hw\""
+                    sh "ssh vagrant@192.168.105.4 -i ${mykey} \"kubectl scale --replicas=2 deployment/myapp\""
                 }
             }
         }
