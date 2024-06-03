@@ -42,7 +42,7 @@ pipeline {
         stage('Test Stage (Target)') {
             steps {
                 echo 'Testing'
-                sh 'newman run test.json --environment stage.json'
+                sh 'newman run e2e-test.json --environment stage.json'
             }
         }
 
@@ -75,7 +75,7 @@ pipeline {
         stage('Test Production (AWS)') {
             steps {
                 echo 'Testing'
-                sh 'newman run test.json --environment production.json'
+                sh 'newman run e2e-test.json --environment production.json'
             }
         } 
     }
