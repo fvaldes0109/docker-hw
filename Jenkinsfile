@@ -23,10 +23,9 @@ pipeline {
                     
                     script {
                         // Check if there are any running containers
-                        def runningContainers = sh(script: 'docker ps -aq', returnStdout: true).trim()
+                        def runningContainers = sh(script: "ssh vagrant@192.168.105.3 -i ${mykey} \"docker ps -aq\"", returnStdout: true).trim()
                         
                         if (runningContainers) {
-                            echo "Running containers: ${runningContainers}"
                             // Stop and remove all containers if there are any running
                             sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker ps -aq | xargs docker stop | xargs docker rm\""
                             echo "Stopped and removed all running containers."
@@ -56,7 +55,7 @@ pipeline {
                     
                     script {
                         // Check if there are any running containers
-                        def runningContainers = sh(script: 'docker ps -aq', returnStdout: true).trim()
+                        def runningContainers = sh(script: "ssh ubuntu@51.21.1.133 -i ${mykey} \"docker ps -aq\"", returnStdout: true).trim()
                         
                         if (runningContainers) {
                             echo "Running containers: ${runningContainers}"
