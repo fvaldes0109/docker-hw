@@ -45,17 +45,5 @@ pipeline {
                 sh 'newman run test.json'
             }
         }
-
-        stage('Deploy to k8s') {
-            environment {
-                ANSIBLE_HOST_KEY_CHECKING = 'false'
-            }
-            steps {
-                sh 'echo "Deploying to k8s..."'
-                ansiblePlaybook credentialsId: 'mykey2',
-                                inventory: 'host.ini',
-                                playbook: 'playbook.yml'
-            }
-        }
     }
 }
