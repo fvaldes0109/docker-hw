@@ -28,13 +28,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.105.3:4444/api",
+					"raw": "http://{{host}}:4444/api",
 					"protocol": "http",
 					"host": [
-						"192",
-						"168",
-						"105",
-						"3"
+						"{{host}}"
 					],
 					"port": "4444",
 					"path": [

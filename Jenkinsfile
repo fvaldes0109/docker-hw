@@ -42,7 +42,7 @@ pipeline {
         stage('Test Stage (Target)') {
             steps {
                 echo 'Testing'
-                sh 'newman run test.json'
+                sh 'newman run test.json --enviroment stage.json'
             }
         }
 
@@ -69,6 +69,13 @@ pipeline {
                     
                     sh "ssh ubuntu@51.21.1.133 -i ${mykey} \"docker run -d -p 4444:4444 ttl.sh/fvaldes-docker-ruby-hw\""
                 }
+            }
+        }
+
+        stage('Test Production (AWS)') {
+            steps {
+                echo 'Testing'
+                sh 'newman run test.json --enviroment production.json'
             }
         } 
     }
